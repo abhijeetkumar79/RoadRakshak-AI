@@ -74,7 +74,7 @@ if mode.startswith("🔴"):
         from streamlit_webrtc import webrtc_streamer, VideoProcessorBase, RTCConfiguration
         import av
 
-        RTC_CONFIGURATION = RTCConfiguration({"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]})
+        RTC_CONFIGURATION = RTCConfiguration({"iceServers": [{"urls": ["stun:stun.l.google.com:19302", "stun:stun1.l.google.com:19302"]}]})
 
         class DamageVideoProcessor(VideoProcessorBase):
             def __init__(self):
