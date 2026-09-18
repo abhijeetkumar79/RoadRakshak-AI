@@ -1,0 +1,624 @@
+/* =============================================================================
+   RoadRakshak AI — Next-Gen Cyber-Infrastructure Theme
+   ============================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+/* --- Root Variables --- */
+:root {
+    --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --bg-dark: #080c14;
+    --bg-card: rgba(14, 22, 38, 0.72);
+    --bg-sidebar: #090e1a;
+    --border-subtle: rgba(0, 240, 255, 0.12);
+    --border-focus: rgba(0, 240, 255, 0.45);
+    --cyan-glow: #00f0ff;
+    --cyan-dim: rgba(0, 240, 255, 0.15);
+    --violet-glow: #7c4dff;
+    --emerald-safe: #10b981;
+    --amber-warning: #f59e0b;
+    --crimson-danger: #ef4444;
+    --text-main: #e2e8f0;
+    --text-muted: #94a3b8;
+}
+
+/* --- Global Typography & Animation --- */
+html, body, [class*="css"], .stApp {
+    font-family: var(--font-main) !important;
+    color: var(--text-main);
+    letter-spacing: -0.01em;
+}
+
+code, pre, .rr-mono {
+    font-family: var(--font-mono) !important;
+}
+
+@keyframes gradientShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseGlowRed {
+    0%   { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
+    70%  { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+@keyframes pulseGlowGreen {
+    0%   { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+    70%  { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+@keyframes scanLine {
+    0%   { left: -40%; }
+    100% { left: 140%; }
+}
+
+@keyframes floatSoft {
+    0%, 100% { transform: translateY(0px); }
+    50%      { transform: translateY(-5px); }
+}
+
+/* --- App Background with Mesh Glow --- */
+.stApp {
+    background: 
+        radial-gradient(circle at 15% 15%, rgba(0, 240, 255, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 85% 80%, rgba(124, 77, 255, 0.05) 0%, transparent 45%),
+        linear-gradient(135deg, #070a12 0%, #0a0f1c 50%, #070d18 100%);
+    background-attachment: fixed;
+}
+
+/* =============================================================================
+   SIDEBAR & NAVIGATION STYLING (Left Panel)
+   ============================================================================= */
+
+section[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #090e1c 0%, #060912 100%) !important;
+    border-right: 1px solid var(--border-subtle) !important;
+    box-shadow: 6px 0 28px rgba(0, 0, 0, 0.5);
+}
+
+/* Sidebar Top Logo Area */
+[data-testid="stSidebarHeader"] {
+    padding-bottom: 0.5rem;
+}
+
+/* Navigation Section Headers in Streamlit 1.36+ */
+[data-testid="stSidebarNavSeparator"] {
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    margin: 12px 0 6px 0 !important;
+}
+
+/* Sidebar Navigation Items */
+[data-testid="stSidebarNavItems"] {
+    padding-top: 6px;
+}
+
+/* Sidebar Navigation Links */
+[data-testid="stSidebarNav"] a,
+[data-testid="stSidebarNavItems"] a,
+a[data-testid="stSidebarNavLink"] {
+    border-radius: 10px !important;
+    padding: 10px 14px !important;
+    margin: 3px 0 !important;
+    color: #94a3b8 !important;
+    font-weight: 500 !important;
+    font-size: 0.92rem !important;
+    transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    border-left: 3px solid transparent !important;
+    background: transparent !important;
+}
+
+/* Hover effect on Nav Links */
+[data-testid="stSidebarNav"] a:hover,
+[data-testid="stSidebarNavItems"] a:hover,
+a[data-testid="stSidebarNavLink"]:hover {
+    background: rgba(0, 240, 255, 0.08) !important;
+    color: #ffffff !important;
+    border-left: 3px solid var(--cyan-glow) !important;
+    padding-left: 17px !important;
+    transform: translateX(2px);
+}
+
+/* Active Nav Link */
+[data-testid="stSidebarNav"] a[aria-current="page"],
+[data-testid="stSidebarNavItems"] a[aria-current="page"],
+a[data-testid="stSidebarNavLink"][aria-current="page"],
+[data-testid="stSidebarNavItems"] a[data-active="true"] {
+    background: linear-gradient(90deg, rgba(0, 240, 255, 0.16) 0%, rgba(124, 77, 255, 0.08) 100%) !important;
+    color: #00f0ff !important;
+    border-left: 4px solid var(--cyan-glow) !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 18px rgba(0, 240, 255, 0.15) !important;
+}
+
+/* Nav Item Icon / Label text */
+[data-testid="stSidebarNav"] span,
+[data-testid="stSidebarNavItems"] span {
+    font-size: 0.94rem !important;
+}
+
+/* Custom Sidebar Brand Card */
+.rr-sidebar-brand {
+    padding: 18px 16px;
+    background: linear-gradient(135deg, rgba(0, 240, 255, 0.08), rgba(124, 77, 255, 0.05));
+    border: 1px solid var(--border-subtle);
+    border-radius: 14px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+.rr-sidebar-brand::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #00f0ff, #7c4dff, transparent);
+}
+
+.rr-sidebar-logo-title {
+    font-size: 1.22rem;
+    font-weight: 800;
+    margin: 0;
+    background: linear-gradient(90deg, #00f0ff 0%, #a78bfa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.rr-sidebar-tagline {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #64748b;
+    margin-top: 4px;
+    margin-bottom: 10px;
+}
+
+/* Pulsing Status Pill */
+.rr-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 4px 10px;
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #34d399;
+    letter-spacing: 0.04em;
+}
+
+.rr-status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #10b981;
+    animation: pulseGlowGreen 2s infinite;
+}
+
+/* Sidebar Telemetry Grid */
+.rr-sidebar-telemetry {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: 12px 0;
+}
+
+.rr-sidebar-chip {
+    background: rgba(15, 23, 42, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 10px;
+    padding: 8px 10px;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.rr-sidebar-chip:hover {
+    border-color: var(--border-focus);
+    transform: translateY(-1px);
+}
+
+.rr-sidebar-chip-val {
+    font-family: var(--font-mono);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #f1f5f9;
+}
+
+.rr-sidebar-chip-lbl {
+    font-size: 0.68rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-top: 2px;
+}
+
+/* Sidebar Footer Info */
+.rr-sidebar-footer {
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    margin-top: 18px;
+    font-size: 0.75rem;
+    color: #64748b;
+}
+
+.rr-hotline-pill {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    border-radius: 10px;
+    margin-top: 10px;
+    color: #fca5a5;
+    font-size: 0.76rem;
+    font-weight: 600;
+}
+
+/* =============================================================================
+   HERO BANNER
+   ============================================================================= */
+
+.rr-hero {
+    padding: 32px 36px;
+    border-radius: 18px;
+    background: 
+        linear-gradient(135deg, rgba(0, 240, 255, 0.12) 0%, rgba(124, 77, 255, 0.08) 100%),
+        rgba(13, 20, 36, 0.85);
+    border: 1px solid var(--border-subtle);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 24px;
+    animation: fadeInUp 0.6s ease;
+}
+
+.rr-hero::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #00f0ff, #7c4dff, #10b981);
+}
+
+.rr-hero::after {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 35%;
+    background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.08), transparent);
+    animation: scanLine 5s linear infinite;
+    pointer-events: none;
+}
+
+.rr-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: rgba(0, 240, 255, 0.12);
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    color: #67e8f9;
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.rr-hero h1 {
+    font-size: 2.35rem;
+    font-weight: 800;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.03em;
+    background: linear-gradient(90deg, #ffffff 0%, #00f0ff 50%, #c084fc 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientShift 8s ease infinite;
+}
+
+.rr-hero p {
+    color: #94a3b8;
+    font-size: 1.05rem;
+    margin: 0;
+    line-height: 1.5;
+    max-width: 820px;
+}
+
+/* =============================================================================
+   GLASS CARDS & KPI CARDS
+   ============================================================================= */
+
+.rr-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px;
+    padding: 20px 22px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    margin-bottom: 14px;
+}
+
+.rr-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--border-focus);
+    box-shadow: 0 12px 36px rgba(0, 240, 255, 0.12);
+}
+
+/* KPI Custom Metric Card */
+.rr-kpi-card {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(20, 30, 52, 0.7));
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 20px 22px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.25s ease;
+}
+
+.rr-kpi-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #00f0ff, transparent);
+    opacity: 0.6;
+}
+
+.rr-kpi-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-focus);
+    box-shadow: 0 10px 30px rgba(0, 240, 255, 0.15);
+}
+
+.rr-kpi-card:hover::before {
+    opacity: 1;
+}
+
+.rr-kpi-val {
+    font-family: var(--font-mono);
+    font-size: 2.1rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 4px 0 2px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rr-kpi-label {
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* =============================================================================
+   BADGES & ACCENTS
+   ============================================================================= */
+
+.rr-badge {
+    display: inline-block;
+    padding: 4px 13px;
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.rr-badge-high {
+    background: rgba(239, 68, 68, 0.16);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    animation: pulseGlowRed 2.2s infinite;
+}
+
+.rr-badge-medium {
+    background: rgba(245, 158, 11, 0.16);
+    color: #fcd34d;
+    border: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+.rr-badge-low {
+    background: rgba(16, 185, 129, 0.16);
+    color: #6ee7b7;
+    border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.rr-badge-info {
+    background: rgba(0, 240, 255, 0.14);
+    color: #67e8f9;
+    border: 1px solid rgba(0, 240, 255, 0.3);
+}
+
+/* Section Titles */
+.rr-section-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #f8fafc;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 22px 0 14px 0;
+}
+
+.rr-section-title::before {
+    content: "";
+    display: inline-block;
+    width: 4px;
+    height: 1.1em;
+    background: linear-gradient(180deg, #00f0ff, #7c4dff);
+    border-radius: 4px;
+}
+
+/* Divider Glow */
+.rr-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.35), transparent);
+    margin: 22px 0;
+    border: none;
+}
+
+/* Floating animation */
+.rr-float {
+    display: inline-block;
+    animation: floatSoft 3s ease-in-out infinite;
+}
+
+/* =============================================================================
+   FORM CONTROLS, BUTTONS & STREAMLIT INPUTS
+   ============================================================================= */
+
+/* Buttons */
+div.stButton > button {
+    font-family: var(--font-main) !important;
+    font-weight: 600 !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(0, 240, 255, 0.35) !important;
+    background: linear-gradient(135deg, rgba(0, 240, 255, 0.12), rgba(124, 77, 255, 0.12)) !important;
+    color: #f1f5f9 !important;
+    padding: 9px 20px !important;
+    transition: all 0.22s ease !important;
+}
+
+div.stButton > button:hover {
+    border-color: #00f0ff !important;
+    box-shadow: 0 0 18px rgba(0, 240, 255, 0.35) !important;
+    transform: translateY(-2px) !important;
+    color: #ffffff !important;
+}
+
+/* Primary Button */
+div.stButton > button[kind="primary"],
+div.stFormSubmitButton > button {
+    background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%) !important;
+    border: 1px solid rgba(0, 240, 255, 0.6) !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 18px rgba(0, 198, 255, 0.35) !important;
+}
+
+div.stButton > button[kind="primary"]:hover,
+div.stFormSubmitButton > button:hover {
+    box-shadow: 0 6px 24px rgba(0, 240, 255, 0.55) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* Inputs & Textareas */
+div[data-baseweb="input"],
+div[data-baseweb="base-input"],
+div[data-baseweb="select"] > div {
+    background: rgba(15, 23, 42, 0.75) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 10px !important;
+    color: #f1f5f9 !important;
+    transition: all 0.2s ease !important;
+}
+
+div[data-baseweb="input"]:focus-within,
+div[data-baseweb="base-input"]:focus-within,
+div[data-baseweb="select"] > div:focus-within {
+    border-color: var(--cyan-glow) !important;
+    box-shadow: 0 0 0 2px rgba(0, 240, 255, 0.2) !important;
+}
+
+/* File Uploader */
+div[data-testid="stFileUploader"] {
+    background: rgba(14, 22, 38, 0.5);
+    border: 1px dashed rgba(0, 240, 255, 0.35);
+    border-radius: 14px;
+    padding: 14px;
+    transition: all 0.2s ease;
+}
+
+div[data-testid="stFileUploader"]:hover {
+    border-color: var(--cyan-glow);
+    background: rgba(14, 22, 38, 0.75);
+}
+
+/* Progress bar */
+.stProgress > div > div > div > div {
+    background: linear-gradient(90deg, #00f0ff, #10b981) !important;
+    border-radius: 999px !important;
+}
+
+/* Expander styling */
+div[data-testid="stExpander"] {
+    background: rgba(15, 23, 42, 0.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 12px !important;
+}
+
+/* Dataframe */
+[data-testid="stDataFrame"] {
+    border: 1px solid var(--border-subtle) !important;
+    border-radius: 14px !important;
+    overflow: hidden !important;
+}
+
+/* Chat Bubbles */
+.rr-chat-user {
+    background: linear-gradient(135deg, rgba(0, 240, 255, 0.14), rgba(0, 150, 255, 0.08));
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    border-radius: 16px 16px 4px 16px;
+    padding: 14px 18px;
+    margin: 10px 0;
+    animation: fadeInUp 0.3s ease;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.rr-chat-bot {
+    background: linear-gradient(135deg, rgba(124, 77, 255, 0.14), rgba(90, 40, 200, 0.08));
+    border: 1px solid rgba(124, 77, 255, 0.3);
+    border-radius: 16px 16px 16px 4px;
+    padding: 14px 18px;
+    margin: 10px 0;
+    animation: fadeInUp 0.3s ease;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Map frame & WebRTC cyber styling */
+iframe[title="streamlit_folium.st_folium"] {
+    border-radius: 14px !important;
+    border: 1px solid var(--border-subtle) !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45) !important;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+::-webkit-scrollbar-track {
+    background: #080c14;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 240, 255, 0.22);
+    border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 240, 255, 0.45);
+}
