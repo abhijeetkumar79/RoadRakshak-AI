@@ -117,7 +117,7 @@ single-shot "Take Photo" mode using Streamlit's built-in camera input.
 
 ---
 
-## 👥 Suggested Team Split (for a 3-person hackathon team)
+## 👥 Suggested Team Split ()
 
 - **AI / Data Science:** `utils/detection.py`, model training (Colab
   guide), `utils/risk.py`, dashboard analytics.
